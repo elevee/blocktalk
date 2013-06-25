@@ -13,6 +13,8 @@ class Blocktalk
 
 # require _________
 
+load 
+
 attr_accessor :username, :times_avail, :email
 
 
