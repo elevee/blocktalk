@@ -12,7 +12,8 @@
 # Notifier
 # Confirms appts with Gmail API: Gmail will send an email confirmation of the meeting.
 
-requre "gmail"
+require 'gmail'
+
 
 class User
 
@@ -104,6 +105,7 @@ class Blocktalk
 
 
 	def self.execute
+		puts ENV['MY_NAME']
 		users = []
 		puts "Welcome to BlockTalk, what is your name?"
 		username = gets.chomp
@@ -138,7 +140,26 @@ class Blocktalk
 		@timeblocks << {day1 => time1, day2 => time2, day3 => time3}
 
 		puts "Excellent! We have sent an email to #{user2} at #{user2_email}. "
+	end
 
+		def self.send_times
+				gmail = Gmail.connect(mksreflect@gmail.com, MakerSquare2013) do |gmail|
+  	gmail.deliver do
+  				to "email@example.com"
+  				subject "Let's make time to chat!"
+  				text_part do
+    			body "Hi #{user2}! 
+
+    			Let's arrange a time that is good for both of us. I have selected three days and times that are good for me below. Please let me know which time works for your best:
+
+    			#{day1} at #{time1}
+    			#{day2} at #{time2}
+    			#{day3} at #{time3}
+
+    			Please let me know if you have any other questions or concerns."
+  				end
+			end
+		gmail.logout
 
 		# puts "Great! We've marked you as available Sun-Sat from 9a-5p. Do you wish
 		# to mark yourself unavailable?"
@@ -187,3 +208,5 @@ class Blocktalk
 
 	#Create another availability class, link them up, work with it there.
 end
+
+Blocktalk.execute
