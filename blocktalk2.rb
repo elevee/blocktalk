@@ -22,6 +22,7 @@ class User
 end	
 
 class Scheduler
+
 	def self.execute
 		puts "Welcome to BlockTalk, what is your name?"
 		username = gets.chomp
@@ -35,38 +36,82 @@ class Scheduler
 		puts "What is their email address?"
 		user2_email = gets.chomp!
 
+		puts randomizer.each do |time|
+			
+		end
 
-		puts "Let's create 3 time blocks that work for you. What day would you like
-		to meet #{user2}?"
-		day1 = gets.chomp!
-		puts "OK, what time on #{day1}?"
-		time1 = gets.chomp!
-		puts "Great. In case #{user2} can't do then, please add an alternative time. 
-		Let's start with the day."
-		day2 = gets.chomp!
-		puts "and a time on #{day2}?"
-		time2 = gets.chomp!
-		puts "Last time. Let's choose an alternative time to meet. Day?"
-		day3 = gets.chomp!
-		puts "...and time on #{day3}?"
-		time3 = gets.chomp!
+		puts "Here are 5 time blocks for today and tomorrow. Please
+		enter the option numbers of the three (3) times that work best for you,
+		separated by commas (i.e. 3,1,4)"
+		user1_choices = gets.chomp!
+		
+		puts "Great. Your preferences have been sent to #{user2} at #{user2_email}. 
+		You'll receive an email when we hear back with your confirmed time."
 
-		@timeblocks = []
-		@timeblocks << {day1 => time1, day2 => time2, day3 => time3}
 
-		puts "Excellent! We have sent an email to #{user2} at #{user2_email}. "
 	end
 
 	def randomizer
+	
+		require 'set'
+
 		now = Time.now  #current time
-		puts now.wday #day 
-		# next day
-		# day after
+		tomorrow_index = now.wday + 1 # tomorrow (index)
+		dayafter_index = now.wday + 2 # next day (index)
 
-		now
+		indeces = {0 => "Sunday", 1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Thursday", 
+			5 => "Friday", 6 => "Saturday"}
 
-		puts "Here are 5 random times generated for the next two days. Please choose three options 
-		separated by commas. If you don't like them, simply type 'more'" 
+		tomorrow = indeces[tomorrow_index] # tomorrow (day)
+		dayafter = indeces[dayafter_index] # next day (day)
+
+		times = [900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000, 2100]
+
+		#GENERATE TOMORROW'S TIMES
+		# random unique tomorrow times
+		tomorrow_times = []
+		
+		until tomorrow_times.length == 3 do
+			tomorrow_times << times[rand(13)]
+			tomorrow_times.uniq!
+		end
+
+		# sort tomorrow's times in order
+		tomorrow_times = tomorrow_times.sort
+		
+		# add day
+		tomorrow_times_with_day = []
+
+		tomorrow_times.each do |time|
+			tomorrow_times_with_day << "#{tomorrow} at #{time}"
+		end
+
+		puts "--------"
+
+		#GENERATE DAY AFTER'S TIMES
+		# random unique dayafter times
+		dayafter_times = []
+
+		until dayafter_times.length == 2
+			dayafter_times << times[rand(13)]
+			dayafter_times.uniq!
+		end
+
+		# sort dayafter's times in order
+		dayafter_times = dayafter_times.sort
+
+		# add day
+		dayafter_times_with_day = []
+
+		dayafter_times.each do |time|
+			dayafter_times_with_day << "#{dayafter} at #{time}"
+		end
+
+		# merge times to one array
+		alltimes_user1 = tomorrow_times_with_day.push(dayafter_times_with_day)
+
+		# duplicate all times for both users
+		alltimes_user2 = alltimes_user1
 	end
 
 end
