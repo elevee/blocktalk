@@ -36,41 +36,61 @@ class Schedule
 		puts "What is their email address?"
 		user2_email = gets.chomp!
 
-		puts "Here are 5 time blocks for today and tomorrow. Please
-		enter the option numbers of the three (3) times that work best for you,
-		separated by commas (i.e. 3,1,4)"
+		puts "Here are 5 time blocks for today and tomorrow:"
 		
-		puts randomize.each
-
-		# counter = 1
-		# t = randomize
-		# t.inspect
-		# t.each do |time|
-		# 	"#{counter}.  #{time}"
-		# 	counter + 1
-		# end
-
-		user1_choices = gets.chomp!
-
-		puts "Fantastic. Your times have been sent to #{user2} at #{user2_email}. 
-		When they respond, you'll get an email confirmation from us."
-
-		puts "Hello, #{user2}, #{user1} wants to BLOCK YOU OUT. You like, avail?"
-		
-		# in case we want to just display user1's choices only:
-		user2_choices = user1_choices
-
-		puts user2_choices
-
-
-
+		t = randomize
+		t.each do |key, value|
+			puts "#{key}.  #{value}" 
 		end
 
-		# 
-		
-		# puts "Great. Your preferences have been sent to #{user2} at #{user2_email}. 
-		# You'll receive an email when we hear back with your confirmed time."
+		puts "Please enter the first option time that works 
+		best for you (ex. 2)"
 
+		user1_choices = []
+		user1_first = gets.chomp.to_i
+
+		puts "Alright, next preference?"
+
+		user1_second = gets.chomp.to_i
+		
+		puts "And your final preference?"
+
+		user1_third = gets.chomp.to_i
+
+		puts t.values_at[user1_first]
+
+		user1_choices << t[user1_first]
+		user1_choices << t[user1_second] 
+		user1_choices << t[user1_third]
+
+		user2_hash = {}
+
+		user1_choices.each_with_index do |value, index|
+			user2_hash[index] = value
+		end
+
+		puts "Hello, #{user2}, #{username} wants to BLOCK YOU OUT. You like, avail?
+		Please choose a numbered option below (ex. 2)"
+		
+		user2_hash.each do |key, value|
+			puts "#{key}.  #{value}" 
+		end
+
+		user2_choice = gets.chomp.to_i
+
+		confirm_time = user2_hash[user2_choice]
+
+		puts "YAAAAY yall are confirmed like whoa. Write this down!
+		
+		#{confirm_time}
+
+		Don't be late." 
+
+		puts "--------EMAIL TO USER1 & USER2--------"
+		puts "YO. SUP. You're confirmed to meet with #{user2}
+		on #{confirm_time}. Away with yourselves."
+
+	end
 
 	end
 
@@ -88,6 +108,7 @@ class Schedule
 				dayafter_index = 1
 		end
 
+		# Interpreting day indeces into day values
 		indeces = {0 => "Sunday", 1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Thursday", 
 			5 => "Friday", 6 => "Saturday"}
 
@@ -115,8 +136,6 @@ class Schedule
 			tomorrow_times_with_day << "#{tomorrow} at #{time}"
 		end
 
-		puts "--------"
-
 		#GENERATE DAY AFTER'S TIMES
 		# random unique dayafter times
 		dayafter_times = []
@@ -138,12 +157,13 @@ class Schedule
 
 		# merge times to one array
 		alltimes_user1 = tomorrow_times_with_day.push(dayafter_times_with_day[0], dayafter_times_with_day[1])
-		return alltimes_user1
+		
+		alltimes_hash = {}
+
+		alltimes_user1.each_with_index do |value, index|
+			alltimes_hash[index] = value
+		end
+
+		return alltimes_hash
 
 end
-
-
-
-
-
-
