@@ -40,20 +40,27 @@ class Schedule
 		enter the option numbers of the three (3) times that work best for you,
 		separated by commas (i.e. 3,1,4)"
 		
-		counter = 1
-		t = randomize
-		t.inspect
+		puts randomize.each
+
+		# counter = 1
+		# t = randomize
+		# t.inspect
 		# t.each do |time|
 		# 	"#{counter}.  #{time}"
 		# 	counter + 1
 		# end
 
 		user1_choices = gets.chomp!
-		
 
+		puts "Fantastic. Your times have been sent to #{user2} at #{user2_email}. 
+		When they respond, you'll get an email confirmation from us."
+
+		puts "Hello, #{user2}, #{user1} wants to BLOCK YOU OUT. You like, avail?"
 		
-		# duplicate all times for both users
-		user2_times = t
+		# in case we want to just display user1's choices only:
+		user2_choices = user1_choices
+
+		puts user2_choices
 
 
 
