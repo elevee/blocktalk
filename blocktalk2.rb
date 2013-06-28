@@ -21,7 +21,7 @@ class User
 	end
 end	
 
-class Scheduler
+class Schedule
 
 	def self.execute
 		puts "Welcome to BlockTalk, what is your name?"
@@ -36,28 +36,50 @@ class Scheduler
 		puts "What is their email address?"
 		user2_email = gets.chomp!
 
-		puts randomizer.each do |time|
-			
-		end
-
 		puts "Here are 5 time blocks for today and tomorrow. Please
 		enter the option numbers of the three (3) times that work best for you,
 		separated by commas (i.e. 3,1,4)"
+		
+		counter = 1
+		t = randomize
+		t.inspect
+		# t.each do |time|
+		# 	"#{counter}.  #{time}"
+		# 	counter + 1
+		# end
+
 		user1_choices = gets.chomp!
 		
-		puts "Great. Your preferences have been sent to #{user2} at #{user2_email}. 
-		You'll receive an email when we hear back with your confirmed time."
+
+		
+		# duplicate all times for both users
+		user2_times = t
+
+
+
+		end
+
+		# 
+		
+		# puts "Great. Your preferences have been sent to #{user2} at #{user2_email}. 
+		# You'll receive an email when we hear back with your confirmed time."
 
 
 	end
 
-	def randomizer
-	
-		require 'set'
+	def randomize
 
 		now = Time.now  #current time
+
 		tomorrow_index = now.wday + 1 # tomorrow (index)
 		dayafter_index = now.wday + 2 # next day (index)
+
+		if tomorrow_index == 6       # to loop day values
+			dayafter_index = 0
+		elsif tomorrow_index == 7
+				tomorrow_index = 0
+				dayafter_index = 1
+		end
 
 		indeces = {0 => "Sunday", 1 => "Monday", 2 => "Tuesday", 3 => "Wednesday", 4 => "Thursday", 
 			5 => "Friday", 6 => "Saturday"}
@@ -108,13 +130,12 @@ class Scheduler
 		end
 
 		# merge times to one array
-		alltimes_user1 = tomorrow_times_with_day.push(dayafter_times_with_day)
-
-		# duplicate all times for both users
-		alltimes_user2 = alltimes_user1
-	end
+		alltimes_user1 = tomorrow_times_with_day.push(dayafter_times_with_day[0], dayafter_times_with_day[1])
+		return alltimes_user1
 
 end
+
+
 
 
 
